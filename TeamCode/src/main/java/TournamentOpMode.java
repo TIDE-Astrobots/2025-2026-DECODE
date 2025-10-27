@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //@Config
-@TeleOp(name = "BasicMovement OpMode Bin6")
+@TeleOp(name = "BasicMovement OpMode Bin12")
 public class TournamentOpMode extends LinearOpMode
 {
 
@@ -26,12 +26,14 @@ public class TournamentOpMode extends LinearOpMode
         DcMotor wheelDownLeft = hardwareMap.get(DcMotor.class, "wheelDownLeft");
         DcMotor wheelDownRight = hardwareMap.get(DcMotor.class, "wheelDownRight");
 
+        //DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+
         int wheelUpLeftDirectionCorrection = 1;
         int wheelUpRightDirectionCorrection = -1;
         int wheelDownLeftDirectionCorrection = 1;
         int wheelDownRightDirectionCorrection = -1;
 
-        double movementSpeed = 0.4;
+        double movementSpeed = 1.0;
 
         double wheelUpLeftPower;
         double wheelUpRightPower;
@@ -46,6 +48,8 @@ public class TournamentOpMode extends LinearOpMode
         waitForStart();
 
         while (opModeIsActive()) {
+            //intakeMotor.setPower(gamepad.left_bumper ? 1 : 0);
+
             movementStickX = gamepad.left_stick_x;
             movementStickY = gamepad.left_stick_y;
             rotationStickX = gamepad.right_stick_x;
