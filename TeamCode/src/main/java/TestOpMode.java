@@ -16,11 +16,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //@
-@Autonomous(name = "Basic Auto Bin19")
+@Autonomous(name = "Basic Auto 26")
 public class TestOpMode extends LinearOpMode
 {
     static final double TICKS_PER_REVOLUTION = 537.7;
     static final double WHEEL_DIAMETER_MM = 96.0;
+
+    static final double ROTATION_FACTOR = 2430.0;
 
     private DcMotor wheelUpLeft = null;
     private DcMotor wheelUpRight = null;
@@ -44,17 +46,19 @@ public class TestOpMode extends LinearOpMode
         reset(wheelDownLeft);
         reset(wheelDownRight);
 
+        double distance = (angle / 360) * ROTATION_FACTOR;
+
         while (opModeIsActive()) {
-            spinDistance(wheelUpLeft, - angle, power);
-            spinDistance(wheelUpRight, - angle, power);
-            spinDistance(wheelDownLeft, - angle, power);
-            spinDistance(wheelDownRight, - angle, power);
+            spinDistance(wheelUpLeft, - distance, power);
+            spinDistance(wheelUpRight, - distance, power);
+            spinDistance(wheelDownLeft, - distance, power);
+            spinDistance(wheelDownRight, - distance, power);
 
             if (
-                    !wheelUpLeft.isBusy() &&
-                            !wheelUpRight.isBusy() &&
-                            !wheelDownLeft.isBusy() &&
-                            !wheelDownRight.isBusy()
+                !wheelUpLeft.isBusy() &&
+                !wheelUpRight.isBusy() &&
+                !wheelDownLeft.isBusy() &&
+                !wheelDownRight.isBusy()
             ) {
                 return;
             }
@@ -101,8 +105,8 @@ public class TestOpMode extends LinearOpMode
         reset(wheelDownLeft);
         reset(wheelDownRight);
 
-        drive(1000, 0.5);
-        spin(1000, 0.5);
-        drive(1000, 0.5);
+        //drive(1000, 0.5);
+        spin(360, 0.5);
+        //drive(1000, 0.5);
     }
 }

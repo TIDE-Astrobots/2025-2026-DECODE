@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //@Config
-@TeleOp(name = "BasicMovement OpMode Bin20")
-public class TournamentOpMode extends LinearOpMode
+@TeleOp(name = "Test OpMode Bin1")
+public class TestOpMode2 extends LinearOpMode
 {
 
     @Override
@@ -24,25 +24,12 @@ public class TournamentOpMode extends LinearOpMode
         DcMotor wheelDownLeft = hardwareMap.get(DcMotor.class, "wheelDownLeft");
         DcMotor wheelDownRight = hardwareMap.get(DcMotor.class, "wheelDownRight");
 
-        DcMotor intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        DcMotor outtakeMotor = hardwareMap.get(DcMotor.class, "outtakeMotor");
-
         Servo pushServo = hardwareMap.get(Servo.class, "pushServo");
-        DcMotor drumMotor = hardwareMap.get(DcMotor.class, "drumMotor");
-
-        int drumRotation = 0;
-
-        boolean left3rd = false;
-        boolean right3rd = false;
-        boolean left6th = false;
-        boolean right6th = false;
 
         int wheelUpLeftDirectionCorrection = 1;
         int wheelUpRightDirectionCorrection = -1;
         int wheelDownLeftDirectionCorrection = 1;
         int wheelDownRightDirectionCorrection = -1;
-
-        double drumMotorTPR = 28.0;
 
         double slowSpeed = 0.2;
         double movementSpeed = 0.5;
@@ -59,33 +46,12 @@ public class TournamentOpMode extends LinearOpMode
 
         waitForStart();
 
-        drumMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         while (opModeIsActive()) {
-            intakeMotor.setPower(gamepad2.dpad_down ? 0.5 : 0);
-            outtakeMotor.setPower(gamepad2.dpad_up ? -1.0 : 0);
-
             pushServo.setPosition(
-                    gamepad2.b ||
-                    gamepad2.x
-                ? 2.0 : 0.0
+                    gamepad1.b ||
+                    gamepad1.x
+                ? 1.0 : 0
             );
-
-            if (gamepad2.left_bumper && !left6th) drumRotation -= 1;
-            if (gamepad2.right_bumper && !right6th) drumRotation += 1;
-            if (gamepad2.left_trigger > 0 && !left3rd) drumRotation -= 2;
-            if (gamepad2.right_trigger > 0 && !right3rd) drumRotation += 2;
-
-            drumMotor.setTargetPosition((int) Math.round(
-                drumMotorTPR * (((double) drumRotation) / 6.0)
-            ));
-            drumMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drumMotor.setPower(0.5);
-
-            left3rd = gamepad2.left_trigger > 0;
-            right3rd = gamepad2.right_trigger > 0;
-            left6th = gamepad2.left_bumper;
-            right6th = gamepad2.right_bumper;
 
             movementStickX = gamepad1.left_stick_x;
             movementStickY = gamepad1.left_stick_y;
