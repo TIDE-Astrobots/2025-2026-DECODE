@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //@Config
-@TeleOp(name = "BasicMovement OpMode Bin20")
+@TeleOp(name = "3rd Rotation Drum")
 public class TournamentOpMode extends LinearOpMode
 {
 
@@ -42,7 +42,12 @@ public class TournamentOpMode extends LinearOpMode
         int wheelDownLeftDirectionCorrection = 1;
         int wheelDownRightDirectionCorrection = -1;
 
-        double drumMotorTPR = 28.0;
+        // REV motors should have 28 tpr
+        // Doesn't spin far enough cause the encoder starts
+        // slowing down the motor before it reaches the correct
+        // spot but that makes it go too slow and it never reaches
+        // the correct spot. JUST A GUESS
+        double drumMotorTPR = 30.65 * 5.0 * 5.0;
 
         double slowSpeed = 0.2;
         double movementSpeed = 0.5;
@@ -60,10 +65,10 @@ public class TournamentOpMode extends LinearOpMode
         waitForStart();
 
         drumMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        outtakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while (opModeIsActive()) {
-            intakeMotor.setPower(gamepad2.dpad_down ? 0.5 : 0);
-            outtakeMotor.setPower(gamepad2.dpad_up ? -1.0 : 0);
+            outtakeMotor.setPower(gamepad2.dpad_up ? 0.8 : (gamepad2.dpad_down ? -0.4 : 0));
 
             pushServo.setPosition(
                     gamepad2.b ||
@@ -71,16 +76,25 @@ public class TournamentOpMode extends LinearOpMode
                 ? 2.0 : 0.0
             );
 
+            int oldDrumRotation = drumRotation;
+
             if (gamepad2.left_bumper && !left6th) drumRotation -= 1;
             if (gamepad2.right_bumper && !right6th) drumRotation += 1;
             if (gamepad2.left_trigger > 0 && !left3rd) drumRotation -= 2;
             if (gamepad2.right_trigger > 0 && !right3rd) drumRotation += 2;
 
-            drumMotor.setTargetPosition((int) Math.round(
-                drumMotorTPR * (((double) drumRotation) / 6.0)
-            ));
-            drumMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            drumMotor.setPower(0.5);
+            if (gamepad2.a) drumRotation -= drumRotation % 2;
+            if (gamepad2.y) drumRotation -= (drumRotation % 2) - 1;
+
+            if (oldDrumRotation != drumRotation) {
+                drumMotor.setTargetPosition((int) Math.round(
+                    drumMotorTPR * (((double) drumRotation) / 6.0)
+                ));
+                drumMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                drumMotor.setPower(0.8);
+            }
+
+            //drumMotor.setPower(0.5 * gamepad2.right_trigger - 0.5 * gamepad2.left_trigger);
 
             left3rd = gamepad2.left_trigger > 0;
             right3rd = gamepad2.right_trigger > 0;

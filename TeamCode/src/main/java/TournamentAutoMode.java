@@ -2,25 +2,18 @@ import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 //@
-@Autonomous(name = "Basic Auto 26")
-public class TestOpMode extends LinearOpMode
+@Autonomous(name = "Autonomous")
+public class TournamentAutoMode extends LinearOpMode
 {
     static final double TICKS_PER_REVOLUTION = 537.7;
-    static final double WHEEL_DIAMETER_MM = 96.0;
+    static final double WHEEL_DIAMETER_MM = 104.0;
 
     static final double ROTATION_FACTOR = 2430.0;
 
@@ -105,8 +98,8 @@ public class TestOpMode extends LinearOpMode
         reset(wheelDownLeft);
         reset(wheelDownRight);
 
-        //drive(1000, 0.5);
-        spin(360, 0.5);
+        drive(1000, 0.5);
+        //spin(360, 0.5);
         //drive(1000, 0.5);
     }
 }
