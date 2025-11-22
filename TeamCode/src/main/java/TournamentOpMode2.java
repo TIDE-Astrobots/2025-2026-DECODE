@@ -73,7 +73,7 @@ public class TournamentOpMode2 extends LinearOpMode
             pushServo.setPosition(
                     gamepad2.b ||
                             gamepad2.x
-                            ? 2.0 : 0.0
+                            ? 2.0 : 0
             );
 
             int oldDrumRotation = drumRotation;
